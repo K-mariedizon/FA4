@@ -1,0 +1,94 @@
+---
+title: "Formative Assessment 4"
+author: "Dizon, Kiana Marie <br> Masicat, Lindsy Rossel "
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+## Question Number 5
+
+5. A geospatial analysis system has four sensors supplying images. The percentage of images supplied by each sensor and the percentage of images relevant
+to a query are shown in the following table.
+
+Sensor        | Percentage of Images Supplied   | Percentage of Relevant Images |TOTAL
+------------- | --------------------------------| ------------------------------|-------
+      1       |                 15              |                 50            |   65
+      2       |                 20              |                 60            |   80
+      3       |                 25              |                 80            |   105
+      4       |                 40              |                 85            |   125
+              |                                 |                               |
+TOTAL         |                 100             |                 275           |   375
+What is the overall percentage of relevant images?
+
+Let E be the percentage of relevant images.
+
+Let P(E) be the total probability of overall percentage of relevant images.
+
+  P(E) = P(S1img ∩ E) + P(S2img ∩ E) + P(S3img ∩ E) + P(S4img ∩ E) <br>
+  P(E) = P(S1img)P(E|S1img) + P(S2img)P(E|S2img) + P(S3img)P(E|S3img) + P(S4img)P(E|S4img) <br>
+  P(E) = ((65/375) x (50/65)) + ((80/375) x (60/80)) + ((105/375) x (80/105)) + ((125/375) x (85/125))<br>
+       
+```{r 5}
+
+  imgS1 <- 65
+  imgS2 <- 80
+  imgS3 <- 105
+  imgS4 <- 125
+  imgTotal <- 375
+  ES1 <- 50
+  ES2 <- 60
+  ES3 <- 80
+  ES4 <- 85
+  
+  ETotal <- ((imgS1/imgTotal)*(ES1/imgS1)) + ((imgS2/imgTotal)*(ES2/imgS2)) + ((imgS3/imgTotal)*(ES3/imgS3)) + ((imgS4/imgTotal)*(ES4/imgS4))
+
+  ETotal
+
+```
+
+Therefore, the total probability of overall percentage of relevant images is 0.7333333 or 73%. 
+
+
+## Question Number 6
+
+6. A fair coin is tossed twice. 
+
+Let E1 be the event that both tosses have the same outcome, that is, E1 = (HH, TT).
+
+Let E2 be the event that the first toss is a head, that is, E2= (HH, HT). 
+
+Let E3 be the event that the second toss is a head, that is, E3= (TH, HH). 
+
+Show that E1, E2, and E3 are pairwise independent but not mutually independent. 
+
+```{r number6}
+
+sampleSpace <- c("HH", "HT", "TH", "TT")
+
+E1 <- c("HH", "TT")
+E2 <- c("HH", "HT")
+E3 <- c("TH", "HH")
+
+ProbE1 <- length(E1) / length(sampleSpace)
+ProbE2 <- length(E2) / length(sampleSpace)
+ProbE3 <- length(E3) / length(sampleSpace)
+
+ProbE1andE2 <- length(intersect(E1, E2)) / length(sampleSpace)
+ProbE1andE3 <- length(intersect(E1, E3)) / length(sampleSpace)
+ProbE2andE3 <- length(intersect(E2, E3)) / length(sampleSpace)
+
+pw_ind <- (ProbE1andE2 == ProbE1 * ProbE2) &
+          (ProbE1andE3 == ProbE1 * ProbE3) &
+          (ProbE2andE3 == ProbE2 * ProbE3)
+pw_ind
+
+cat("Since the value shows TRUE, therefore they are pairwise independent.")
+
+ProbE1andE2andE3 <- length(intersect(intersect(E1, E2), E3)) / length(sampleSpace)
+mutuallyInd <- ProbE1andE2andE3 == ProbE1 * ProbE2 * ProbE3
+
+mutuallyInd
+cat("Since the value shows FALSE, therefore they are not mutually independent.")
+```
+Thus, it shows that E1, E2, and E3 are pairwise independent but not mutually independent.
